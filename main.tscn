@@ -1,0 +1,167 @@
+[gd_scene load_steps=9 format=3 uid="uid://main001"]
+
+[ext_resource type="Script" path="res://addons/TCA_Weather_System/scripts/EnvironmentManager.gd" id="1"]
+[ext_resource type="Shader" path="res://addons/TCA_Weather_System/shaders/weather_system_sky.gdshader" id="2"]
+[ext_resource type="Shader" path="res://addons/TCA_Weather_System/shaders/der_water_shader.gdshader" id="3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
+shader = ExtResource("2")
+shader_parameter/sky_top_color = Color(0.2, 0.3, 0.5, 1)
+shader_parameter/sky_horizon_color = Color(0.8, 0.85, 0.95, 1)
+shader_parameter/sky_curve = 0.2
+shader_parameter/sky_energy = 1.0
+shader_parameter/ground_bottom_color = Color(0.1, 0.08, 0.06, 1)
+shader_parameter/ground_horizon_color = Color(0.5, 0.45, 0.4, 1)
+shader_parameter/ground_curve = 0.05
+shader_parameter/ground_energy = 0.8
+shader_parameter/sun_glow_intensity = 0.8
+shader_parameter/sunset_intensity = 0.6
+shader_parameter/rayleigh_scatter = 0.6
+shader_parameter/mie_scatter = 0.4
+shader_parameter/mie_g = 0.76
+shader_parameter/sunset_color = Color(1, 0.45, 0.2, 1)
+shader_parameter/sun_disk_size = 1.5
+shader_parameter/sun_glow_size = 25.0
+shader_parameter/stars_enabled = false
+shader_parameter/moon_enabled = false
+shader_parameter/cloud_uv_scale = 1.0
+shader_parameter/cloud_uv_scale2 = 1.2
+shader_parameter/small_cloud_cover = 0.3
+shader_parameter/large_cloud_cover = 0.2
+shader_parameter/cloud_inner_colour = Color(1, 1, 1, 1)
+shader_parameter/cloud_outer_colour = Color(0.7, 0.72, 0.75, 1)
+shader_parameter/cloud_speed = 0.0005
+shader_parameter/cloud_shape_change_speed = 0.0003
+shader_parameter/cloud_lighting = 0.5
+shader_parameter/cloud_depth_effect = false
+shader_parameter/wind_direction = Vector2(1, 0)
+shader_parameter/wind_strength = 0.5
+shader_parameter/rain_intensity = 0.0
+shader_parameter/fog_intensity = 0.0
+shader_parameter/season_tint = Vector3(1, 1, 1)
+shader_parameter/atmosphere_depth = 0.5
+
+[sub_resource type="Sky" id="Sky_sky"]
+sky_material = SubResource("ShaderMaterial_sky")
+
+[sub_resource type="Environment" id="Environment_env"]
+background_mode = 2
+background_sky = SubResource("Sky_sky")
+ambient_light_source = 2
+ambient_light_energy = 0.8
+glow_enabled = true
+glow_intensity = 0.4
+glow_bloom = 0.5
+tonemap_mode = 2
+tonemap_exposure = 1.0
+ssao_enabled = false
+ssil_enabled = false
+sdfgi_enabled = false
+volumetric_fog_enabled = false
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_water"]
+size = Vector2(50, 50)
+orientation = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_water"]
+shader = ExtResource("3")
+shader_parameter/water_color_deep = Color(0.02, 0.08, 0.18, 1)
+shader_parameter/water_color_shallow = Color(0.20, 0.55, 0.70, 1)
+shader_parameter/water_transparency = 0.90
+shader_parameter/water_smoothness = 0.95
+shader_parameter/water_metallic = 0.92
+shader_parameter/wave_speed = 0.8
+shader_parameter/wave_strength = 0.15
+shader_parameter/wave_length = 12.0
+shader_parameter/wave_steepness = 0.25
+shader_parameter/wave_speed2 = 1.2
+shader_parameter/wave_strength2 = 0.08
+shader_parameter/wave_length2 = 7.0
+shader_parameter/wave_steepness2 = 0.15
+shader_parameter/wave_speed3 = 0.0
+shader_parameter/wave_strength3 = 0.0
+shader_parameter/wave_length3 = 4.5
+shader_parameter/wave_steepness3 = 0.0
+shader_parameter/wind_effect = 0.3
+shader_parameter/wind_direction = Vector2(1, 0)
+shader_parameter/normal_scale = 0.8
+shader_parameter/normal_speed = 0.15
+shader_parameter/caustic_intensity = 0.6
+shader_parameter/caustic_scale = 5.0
+shader_parameter/caustic_speed = 0.3
+shader_parameter/caustic_sharpness = 1.5
+shader_parameter/caustic_dynamic = 0.3
+shader_parameter/foam_intensity = 0.5
+shader_parameter/foam_threshold = 0.55
+shader_parameter/foam_speed = 0.2
+shader_parameter/foam_sharpness = 1.2
+shader_parameter/foam_breaking = 0.3
+shader_parameter/reflection_strength = 0.7
+shader_parameter/reflection_blur = 0.1
+shader_parameter/fresnel_power = 3.5
+shader_parameter/sun_direction = Vector3(1, 0.8, 0.5)
+shader_parameter/sun_intensity = 1.0
+shader_parameter/rain_ripple_intensity = 0.0
+shader_parameter/rain_ripple_density = 1.0
+shader_parameter/depth_falloff = 3.0
+shader_parameter/shore_foam_intensity = 0.5
+shader_parameter/shore_foam_distance = 1.2
+shader_parameter/underwater_fog_intensity = 0.3
+shader_parameter/underwater_fog_color = Color(0.08, 0.18, 0.28, 1)
+shader_parameter/underwater_distortion = 0.02
+shader_parameter/underwater_caustic_intensity = 0.4
+shader_parameter/god_ray_intensity = 0.3
+shader_parameter/god_ray_decay = 1.5
+shader_parameter/god_ray_density = 0.6
+shader_parameter/god_ray_dynamic = 0.3
+shader_parameter/spectral_highlight = 0.2
+shader_parameter/spectral_color = Vector3(0.9, 0.85, 0.7)
+shader_parameter/season_tint = 0.0
+shader_parameter/summer_tint = Vector3(1.0, 1.05, 0.95)
+shader_parameter/winter_tint = Vector3(0.9, 0.92, 1.05)
+shader_parameter/autumn_tint = Vector3(1.05, 0.85, 0.7)
+shader_parameter/spring_tint = Vector3(0.9, 1.05, 0.9)
+shader_parameter/wave_breaking_particles = 0.0
+shader_parameter/particle_emission_rate = 0.0
+
+[node name="Main" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_env")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+light_energy = 1.0
+light_color = Color(1, 0.95, 0.85, 1)
+shadow_enabled = true
+shadow_blur = 1.0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 10)
+current = true
+
+[node name="WaterPlane" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("PlaneMesh_water")
+material_override = SubResource("ShaderMaterial_water")
+cast_shadow = 0
+
+[node name="ReflectionProbe" type="ReflectionProbe" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+extents = Vector3(50, 25, 50)
+update_mode = 2
+intensity = 0.6
+
+[node name="EnvironmentManager" type="Node3D" parent="."]
+script = ExtResource("1")
+sky_material = SubResource("ShaderMaterial_sky")
+water_material = SubResource("ShaderMaterial_water")
+directional_light = NodePath("../DirectionalLight3D")
+reflection_probe = NodePath("../ReflectionProbe")
+world_environment = NodePath("../WorldEnvironment")
+camera = NodePath("../Camera3D")
+wind_direction = Vector2(1, 0)
+wind_strength = 0.3
+weather_type = "clear"
+auto_time = true
+time_speed = 0.05

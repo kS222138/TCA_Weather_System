@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://2hfnetgvt1n2"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_g66cx"]
+emission_shape = 3
+emission_box_extents = Vector3(20, 0.5, 20)
+direction = Vector3(0, -1, 0)
+spread = 5.0
+initial_velocity_min = 15.0
+initial_velocity_max = 15.0
+collision_mode = 2
+
+[sub_resource type="Curve" id="Curve_ulbo1"]
+max_value = 0.1
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1e-05, 0), 0.0, 0.0, 0, 0, Vector2(0.0794872, 0.0225886), 0.335545, 0.335545, 0, 0, Vector2(0.169231, 0.0462598), 0.187131, 0.187131, 0, 0, Vector2(0.758974, 0), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cumm2"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.921569, 0.921569, 0.921569, 1)
+use_particle_trails = true
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_f5nun"]
+material = SubResource("StandardMaterial3D_cumm2")
+size = 0.2
+sections = 2
+section_length = 0.1
+curve = SubResource("Curve_ulbo1")
+
+[node name="RainParticles" type="GPUParticles3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+amount = 3000
+amount_ratio = 0.1
+lifetime = 2.0
+randomness = 0.4
+visibility_aabb = AABB(-20, -30, -20, 40, 30, 40)
+trail_enabled = true
+process_material = SubResource("ParticleProcessMaterial_g66cx")
+draw_pass_1 = SubResource("RibbonTrailMesh_f5nun")

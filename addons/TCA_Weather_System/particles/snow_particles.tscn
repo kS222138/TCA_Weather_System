@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://dn6kegjtnwhc3"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_g66cx"]
+emission_shape = 3
+emission_box_extents = Vector3(20, 0.5, 20)
+direction = Vector3(0, -1, 0)
+spread = 15.0
+initial_velocity_min = 1.0
+initial_velocity_max = 10.0
+collision_mode = 2
+
+[sub_resource type="Gradient" id="Gradient_mnwin"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vnlua"]
+gradient = SubResource("Gradient_mnwin")
+width = 32
+height = 32
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.508547, 0.517094)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1vdnf"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = SubResource("GradientTexture2D_vnlua")
+
+[sub_resource type="QuadMesh" id="QuadMesh_is8c4"]
+material = SubResource("StandardMaterial3D_1vdnf")
+size = Vector2(0.1, 0.1)
+
+[node name="SnowParticles" type="GPUParticles3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+cast_shadow = 0
+amount = 5000
+amount_ratio = 0.1
+lifetime = 2.0
+speed_scale = 0.3
+randomness = 0.8
+visibility_aabb = AABB(-20, -30, -20, 40, 30, 40)
+process_material = SubResource("ParticleProcessMaterial_g66cx")
+draw_pass_1 = SubResource("QuadMesh_is8c4")

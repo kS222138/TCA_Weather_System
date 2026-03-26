@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="DERPrecipitationResource" load_steps=3 format=3 uid="uid://dsxi6qll8jgv5"]
+
+[ext_resource type="PackedScene" uid="uid://dn6kegjtnwhc3" path="res://addons/TCA_Weather_System/particles/snow_particles.tscn" id="1_yspuy"]
+[ext_resource type="Script" path="res://addons/TCA_Weather_System/scripts/PrecipitationResource.gd" id="2_8nhvc"]
+
+[resource]
+script = ExtResource("2_8nhvc")
+particles = ExtResource("1_yspuy")
+amountRatio = 1.0
