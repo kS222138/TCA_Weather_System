@@ -215,7 +215,7 @@ MIT License - Free for commercial and personal use.
 
 🙏 Credits
 
-· Author: ks222 (13-year-old Godot developer)
+· Author: ks222 
 · Sky Shader: Inspired by UE5 atmospheric scattering
 · Water Shader: Custom Gerstner wave implementation reaching 95% of UE5 quality
 · Performance: Optimized for mobile devices (108 lines, zero external textures)
