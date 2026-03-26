@@ -218,7 +218,7 @@ MIT License - Free for commercial and personal use.
 · Author: ks222 
 · Sky Shader: Inspired by UE5 atmospheric scattering
 · Water Shader: Custom Gerstner wave implementation reaching 95% of UE5 quality
-· Performance: Optimized for mobile devices (108 lines, zero external textures)
+· Performance: Optimized for mobile devices (100+ lines, zero external textures)
 
 ---
 
