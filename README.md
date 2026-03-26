@@ -1,7 +1,7 @@
 🌊 TCA Weather System - Complete Environment System
 
 Version: 1.0.0
-Godot Version: 4.3+
+Godot Version: 4.6+
 License: MIT
 
 ---
