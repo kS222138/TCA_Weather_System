@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="SeasonResource" format=3]
+
+[ext_resource type="Script" path="res://addons/TCA_Weather_System/scripts/SeasonResource.gd" id="1"]
+[ext_resource type="Script" path="res://addons/TCA_Weather_System/scripts/SkyColourResource.gd" id="2"]
+[ext_resource type="Script" path="res://addons/TCA_Weather_System/scripts/WeatherOccurrenceResource.gd" id="3"]
+[ext_resource type="Resource" path="res://addons/TCA_Weather_System/weather/fine.tres" id="4"]
+[ext_resource type="Resource" path="res://addons/TCA_Weather_System/weather/clouded.tres" id="5"]
+[ext_resource type="Resource" path="res://addons/TCA_Weather_System/weather/rain.tres" id="6"]
+[ext_resource type="Resource" path="res://addons/TCA_Weather_System/weather/heavy_rain.tres" id="7"]
+
+[sub_resource type="Curve" id="curve_1"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0464286, 0), 0.0, 0.0, 0, 0, Vector2(0.107143, 0.0367036), 0.303207, 0.303207, 0, 0, Vector2(0.425, 1), 0.0, 0.0, 0, 0, Vector2(0.571429, 1), 0.0, 0.0, 0, 0, Vector2(0.896429, 0.0277009), 0.0, 0.0, 0, 0, Vector2(0.960714, 0), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 8
+
+[sub_resource type="Resource" id="day_sky"]
+script = ExtResource("2")
+
+[sub_resource type="Resource" id="night_sky"]
+script = ExtResource("2")
+sky_colour = Color(0, 0.00784314, 0.105882, 1)
+horizon_colour = Color(0.0784314, 0.00784314, 0.0156863, 1)
+ground_colour = Color(0, 0, 0, 1)
+cloud_brightness = 0.05
+
+[sub_resource type="Resource" id="weather_fine"]
+script = ExtResource("3")
+weather = ExtResource("4")
+
+[sub_resource type="Resource" id="weather_clouded"]
+script = ExtResource("3")
+weather = ExtResource("5")
+probability_ratio = 0.8
+
+[sub_resource type="Resource" id="weather_rain"]
+script = ExtResource("3")
+weather = ExtResource("6")
+
+[sub_resource type="Resource" id="weather_heavy_rain"]
+script = ExtResource("3")
+weather = ExtResource("7")
+probability_ratio = 0.7
+
+[resource]
+script = ExtResource("1")
+season_id = "summer"
+weathers = Array[ExtResource("3")]([SubResource("weather_fine"), SubResource("weather_clouded"), SubResource("weather_rain"), SubResource("weather_heavy_rain")])
+day_sky = SubResource("day_sky")
+night_sky = SubResource("night_sky")
+day_night_cycle_curve = SubResource("curve_1")

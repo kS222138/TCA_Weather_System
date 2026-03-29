@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="DERWeatherResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/TCA_Weather_System/scripts/WeatherResource.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+min_duration = 20000.0
+max_duration = 80000.0
+cloud_speed = 0.001
+small_cloud_cover = 0.5
+large_cloud_cover = 0.5
+cloud_inner_colour = Color(1, 1, 1, 1)
+cloud_outer_colour = Color(0.5, 0.5, 0.5, 1)
+fog_density = 0.0

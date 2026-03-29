@@ -1,0 +1,70 @@
+[gd_scene format=3]
+
+[ext_resource type="Shader" path="res://addons/TCA_Weather_System/shaders/tca_water_shader.gdshader" id="1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_water"]
+rentca_priority = 0
+shader = ExtResource("1")
+shader_parameter/water_deep = Color(0.01, 0.04, 0.1, 1)
+shader_parameter/water_shallow = Color(0.12, 0.45, 0.68, 1)
+shader_parameter/transparency = 0.92
+shader_parameter/smoothness = 0.99
+shader_parameter/metallic = 0.96
+shader_parameter/spd1 = 1.2
+shader_parameter/str1 = 0.28
+shader_parameter/len1 = 14.0
+shader_parameter/stp1 = 0.42
+shader_parameter/spd2 = 1.8
+shader_parameter/str2 = 0.18
+shader_parameter/len2 = 8.5
+shader_parameter/stp2 = 0.28
+shader_parameter/spd3 = 2.6
+shader_parameter/str3 = 0.1
+shader_parameter/len3 = 5.5
+shader_parameter/stp3 = 0.16
+shader_parameter/wind_effect = 0.5
+shader_parameter/wind_dir = Vector2(1, 0.3)
+shader_parameter/norm_scale = 1.4
+shader_parameter/norm_speed = 0.3
+shader_parameter/caustic_int = 0.9
+shader_parameter/caustic_scale = 6.0
+shader_parameter/caustic_spd = 0.45
+shader_parameter/foam_int = 0.7
+shader_parameter/foam_thresh = 0.52
+shader_parameter/foam_spd = 0.35
+shader_parameter/foam_break = 0.6
+shader_parameter/refl_str = 0.88
+shader_parameter/fresnel_pow = 5.2
+shader_parameter/sun_dir = Vector3(1, 0.75, 0.5)
+shader_parameter/sun_int = 1.2
+shader_parameter/ripple_int = 0.0
+shader_parameter/depth_fall = 4.0
+shader_parameter/shore_foam = 0.9
+shader_parameter/shore_dist = 1.5
+shader_parameter/untca_fog = 0.6
+shader_parameter/untca_col = Vector3(0.05, 0.14, 0.24)
+shader_parameter/untca_warp = 0.045
+shader_parameter/godray_int = 0.6
+shader_parameter/godray_decay = 1.6
+shader_parameter/godray_dense = 0.9
+shader_parameter/spectral = 0.35
+shader_parameter/spectral_col = Vector3(0.92, 0.88, 0.75)
+shader_parameter/season = 0.0
+shader_parameter/sum_tint = Vector3(1, 1.05, 0.95)
+shader_parameter/win_tint = Vector3(0.88, 0.9, 1.08)
+shader_parameter/aut_tint = Vector3(1.08, 0.82, 0.68)
+shader_parameter/spr_tint = Vector3(0.88, 1.08, 0.92)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_water"]
+size = Vector2(50, 50)
+
+[sub_resource type="Environment" id="Environment_1jfk7"]
+
+[node name="WaterPlane" type="MeshInstance3D" unique_id=70512175]
+material_override = SubResource("ShaderMaterial_water")
+cast_shadow = 0
+gi_mode = 0
+mesh = SubResource("PlaneMesh_water")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1311992582]
+environment = SubResource("Environment_1jfk7")

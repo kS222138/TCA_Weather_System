@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="QualityPreset" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/TCA_Weather_System/scripts/quality_preset.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+name = "High"
+cloud_quality = 1.0
+water_quality = 1.0
+particle_quality = 1.0
+shadow_quality = 1.0
+reflection_quality = 1.0
+fog_quality = 1.0

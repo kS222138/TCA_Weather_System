@@ -1,54 +1,67 @@
 🌊 TCA Weather System - Complete Environment System
 
-Version: 1.0.0
+Version: 1.1.0
 Godot Version: 4.6+
 License: MIT
 
 ---
 
-📦 What's New in v1.0.0
+📦 What's New in v1.1.0
 
-✅ Cinematic Water Rendering System
-
-Module Class Description
-Gerstner Waves WaterShader 3-layer physical waves with crest curling. Realistic ocean motion with steepness control.
-Dynamic Normals WaterShader 4-layer procedural normals + wave normals blending. Zero texture dependencies.
-Caustics WaterShader Real-time procedural caustics with sun direction rotation. Projects onto underwater geometry.
-Foam System WaterShader Crest foam + breaking foam + shoreline foam with smoothstep threshold blending.
-God Rays WaterShader Volumetric light shafts with dynamic density and decay. Surface + underwater rendering.
-Spectral Highlights WaterShader Rainbow-colored dispersion. Realistic light refraction simulation.
-Underwater Effects WaterShader Fog + distortion + caustics + god rays with flow direction animation.
-
-✅ Sky & Atmosphere System
+✅ Performance Optimization System
 
 Module Class Description
-Atmospheric Scattering SkyShader Rayleigh + Mie scattering. Realistic sunset and sunrise colors.
-Cloud System SkyShader 3-layer dynamic clouds with wind movement and depth effect.
-Stars & Moon SkyShader Procedural stars with twinkling, moon with glow and spherical mapping.
-Weather Integration SkyShader Rain/snow/fog intensity affects sky color and cloud cover.
+Performance Controller PerformanceController Auto-adjusts graphics quality based on FPS. 4 quality levels (Low/Medium/High/Ultra).
+Quality Preset QualityPreset Save/load quality presets as .tres files for different devices.
 
-✅ Environment Management System
+✅ Wind & Cloud System
 
 Module Class Description
-Wind Controller EnvironmentManager Global wind system with gust, turbulence, and direction control.
-Weather Controller EnvironmentManager Rain/snow/fog intensity control with 10+ weather presets.
-Season Controller EnvironmentManager Summer/autumn/winter/spring transition with color tint.
-Time Controller EnvironmentManager Day/night cycle with sun angle, color, and intensity.
-Reflection System EnvironmentManager Automatic cubemap update for realistic water reflections.
+Wind Controller WindController Global wind system with gust, turbulence, and direction smoothing.
+Cloud Driver CloudDriver Cloud movement driven by wind direction. Smooth cloud offset animation.
 
-✅ Particle Systems
+✅ Weather Transition System
+
+Module Class Description
+Weather Transition WeatherTransition Smooth weather transitions with custom curves and callbacks.
+Weather Forecast WeatherForecast Probability-based weather prediction with auto-change timer.
+
+---
+
+✅ Existing Features (v1.0.0)
+
+Cinematic Water Rendering System
+
+Module Class Description
+Gerstner Waves WaterShader 3-layer physical waves with crest curling
+Dynamic Normals WaterShader 4-layer procedural normals + wave normals
+Caustics WaterShader Real-time procedural caustics
+Foam System WaterShader Crest foam + breaking foam + shoreline foam
+God Rays WaterShader Volumetric light shafts
+Spectral Highlights WaterShader Rainbow-colored dispersion
+Underwater Effects WaterShader Fog + distortion + caustics + god rays
+
+Sky & Atmosphere System
+
+Module Class Description
+Atmospheric Scattering SkyShader Rayleigh + Mie scattering
+Cloud System SkyShader 3-layer dynamic clouds
+Stars & Moon SkyShader Procedural stars with twinkling, moon with glow
+Weather Integration SkyShader Rain/snow/fog affects sky color
+
+Environment Management System
+
+Module Class Description
+Weather Controller EnvironmentManager 10+ weather presets
+Season Controller EnvironmentManager Summer/autumn/winter/spring transition
+Time Controller EnvironmentManager Day/night cycle
+Reflection System EnvironmentManager Automatic cubemap update
+
+Particle Systems
 
 Module Scene Description
-Rain Particles rain_particles.tscn Dynamic rain with adjustable intensity and spread.
-Snow Particles snow_particles.tscn Dynamic snow with fluttering effect.
-
-✅ Resource System
-
-Module Class Description
-Weather Resource WeatherResource.gd Define custom weather types with color, intensity, and duration.
-Season Resource SeasonResource.gd Define seasonal color tints and effects.
-Sky Color Resource SkyColourResource.gd Preset sky color configurations for different times.
-Precipitation Resource PrecipitationResource.gd Rain/snow particle settings for different intensities.
+Rain Particles rain_particles.tscn Dynamic rain
+Snow Particles snow_particles.tscn Dynamic snow
 
 ---
 
@@ -57,98 +70,139 @@ Precipitation Resource PrecipitationResource.gd Rain/snow particle settings for 
 ```
 TCA_Weather_System/
 ├── materials/
-│   ├── water_material.tres          # Water material configuration
-│   └── water_material.tscn           # Water material scene
+│   ├── water_material.tres
+│   └── water_material.tscn
 ├── nodes/
-│   └── world_environment.tscn        # WorldEnvironment with sky
+│   └── world_environment.tscn
 ├── particles/
-│   ├── rain_particles.tscn           # Rain particle system
-│   └── snow_particles.tscn           # Snow particle system
+│   ├── rain_particles.tscn
+│   └── snow_particles.tscn
 ├── precipitation/
-│   ├── heavy_rain.tres               # Heavy rain preset
-│   ├── heavy_snow.tres               # Heavy snow preset
-│   ├── rain.tres                     # Light rain preset
-│   └── snow.tres                     # Light snow preset
+│   ├── heavy_rain.tres
+│   ├── heavy_snow.tres
+│   ├── rain.tres
+│   └── snow.tres
+├── presets/                          # New in v1.1.0
+│   ├── low_quality.tres
+│   ├── medium_quality.tres
+│   └── high_quality.tres
 ├── scripts/
-│   ├── EnvironmentManager.gd         # Main environment controller
-│   ├── PrecipitationResource.gd      # Precipitation data class
-│   ├── SeasonResource.gd             # Season data class
-│   ├── SkyColourResource.gd          # Sky color data class
-│   ├── WeatherController.gd          # Weather state machine
-│   ├── WeatherOccurrenceResource.gd  # Weather event data class
-│   └── WeatherResource.gd            # Weather type data class
+│   ├── EnvironmentManager.gd
+│   ├── PerformanceController.gd      # New
+│   ├── WindController.gd              # New
+│   ├── CloudDriver.gd                 # New
+│   ├── WeatherTransition.gd           # New
+│   ├── WeatherForecast.gd             # New
+│   ├── QualityPreset.gd               # New
+│   ├── PrecipitationResource.gd
+│   ├── SeasonResource.gd
+│   ├── SkyColourResource.gd
+│   ├── WeatherController.gd
+│   ├── WeatherOccurrenceResource.gd
+│   └── WeatherResource.gd
 ├── seasons/
-│   ├── summer.tres                   # Summer color preset
-│   └── winter.tres                   # Winter color preset
+│   ├── summer.tres
+│   └── winter.tres
 ├── shaders/
-│   ├── der_water_shader.gdshader     # Cinematic water shader
-│   └── weather_system_sky.gdshader   # Atmospheric sky shader
-├── textures/                         # Optional texture assets
+│   ├── tca_water_shader.gdshader
+│   └── weather_system_sky.gdshader
+├── textures/
 ├── weather/
-│   ├── clouded.tres                  # Cloudy weather preset
-│   ├── fine.tres                     # Clear weather preset
-│   ├── heavy_rain.tres               # Heavy rain preset
-│   ├── heavy_snow.tres               # Heavy snow preset
-│   ├── rain.tres                     # Light rain preset
-│   └── snow.tres                     # Light snow preset
-└── weather_controller.tscn           # Pre-configured weather scene
+│   ├── clouded.tres
+│   ├── fine.tres
+│   ├── heavy_rain.tres
+│   ├── heavy_snow.tres
+│   ├── rain.tres
+│   └── snow.tres
+└── weather_controller.tscn
 ```
 
 ---
 
 🚀 Quick Start
 
-1. Add to Your Scene
+1️⃣ Add to Your Scene
 
 Simply drag weather_controller.tscn into your scene.
 
-2. Configure Environment Manager
+2️⃣ Configure Environment Manager
 
 ```gdscript
 var env = $EnvironmentManager
-env.set_weather("rain")       # clear / rain / heavy_rain / snow / heavy_snow / fog / storm
+env.set_weather("rain")
 env.set_wind(Vector2(1, 0), 0.6)
-env.set_time(14.5)            # 2:30 PM
-env.set_season("summer")      # summer / autumn / winter / spring
-env.auto_time = true          # Automatic day/night cycle
+env.set_time(14.5)
+env.set_season("summer")
+env.auto_time = true
 ```
 
-3. Weather Presets
+3️⃣ Performance Control (New in v1.1.0)
 
-Weather Rain Snow Fog Cloud
-clear 0 0 0 0.1
-light_rain 0.3 0 0.2 0.6
-rain 0.7 0 0.3 0.8
-heavy_rain 1.0 0 0.5 0.95
-light_snow 0 0.4 0.2 0.7
-snow 0 0.7 0.4 0.85
-heavy_snow 0 1.0 0.6 0.95
-fog 0 0 0.9 0.5
-storm 0.9 0 0.4 0.98
+```gdscript
+var perf = $PerformanceController
+perf.apply_quality(PerformanceController.Quality.LOW)   # Low-end devices
+perf.apply_quality(PerformanceController.Quality.ULTRA) # High-end devices
+perf.auto_adjust = true  # Auto-adjust based on FPS
+```
+
+4️⃣ Wind Control (New in v1.1.0)
+
+```gdscript
+var wind = $WindController
+wind.set_wind(Vector2(1, 0), 8.0)  # East wind, 8 m/s
+wind.add_affected_node($CloudDriver)
+wind.gust_strength = 3.0
+```
+
+5️⃣ Weather Forecast (New in v1.1.0)
+
+```gdscript
+var forecast = $WeatherForecast
+forecast.auto_change = true
+forecast.change_interval = 300.0  # Change every 5 minutes
+forecast.weather_changed.connect(func(from, to):
+    print("Weather changing from ", from, " to ", to)
+)
+```
+
+6️⃣ Weather Transition (New in v1.1.0)
+
+```gdscript
+var transition = $WeatherTransition
+transition.start_transition("clear", "rain", 3.0)  # 3 second transition
+transition.transition_completed.connect(func(weather):
+    print("Transition complete: ", weather)
+)
+```
 
 ---
 
-📝 Key Parameters
+📝 Performance Tuning
 
-Water Shader
+Quality Levels
 
-Parameter Default Description
-water_deep (0.01,0.04,0.10) Deep ocean color
-water_shallow (0.12,0.45,0.68) Shallow water color
-smoothness 0.99 Surface smoothness
-foam_thresh 0.52 Crest foam sensitivity
-wind_effect 0.6 Wind influence on waves
-ripple_int 0.0 Rain ripple intensity
+Setting Low Medium High Ultra
+Wave Layers 1 2 3 3
+Cloud Layers 1 2 3 3
+God Rays Off On On On
+Spectral Highlights Off Off On On
+Particle Count 30% 60% 100% 100%
+Shadow Quality Off Low Medium High
+Anti-Aliasing Off FXAA FXAA MSAA 2x
 
-Sky Shader
+Mobile Devices (Low Quality)
 
-Parameter Default Description
-sky_top_color (0.02,0.05,0.12) Top sky color
-sky_horizon_color (0.55,0.65,0.85) Horizon color
-sun_glow_intensity 1.2 Sun glow strength
-cloud_speed 0.0008 Cloud movement speed
-rain_intensity 0.0 Rain effect on sky
-fog_intensity 0.0 Fog density
+· 1-layer waves
+· No god rays
+· No spectral highlights
+· 30% particle count
+
+Desktop (Ultra Quality)
+
+· 3-layer waves
+· Full god rays
+· Spectral highlights
+· 100% particle count
 
 ---
 
@@ -162,16 +216,15 @@ env.fog_intensity = 0.5
 
 # Wind
 env.set_wind(Vector2(0.8, 0.5), 0.7)
-env.wind_gust_frequency = 0.3
 
 # Time
-env.set_time(6, 30)           # 6:30 AM
-env.time_speed = 0.1          # 10x real time
+env.set_time(6, 30)
+env.time_speed = 0.1
 env.auto_time = true
 
 # Season
 env.set_season("autumn")
-env.season_progress = 0.5     # Mid season
+env.season_progress = 0.5
 
 # Queries
 print(env.get_weather_description())  # "Heavy Rain"
@@ -191,18 +244,29 @@ env.water_material = $WaterPlane.material_override
 env.sky_material = $WorldEnvironment.environment.sky.sky_material
 ```
 
+Connect Performance Controller
+
+```gdscript
+var perf = $PerformanceController
+perf.set_sky_material(env.sky_material)
+perf.set_water_material(env.water_material)
+perf.set_rain_particles($RainParticles)
+perf.set_snow_particles($SnowParticles)
+```
+
 Listen to Events
 
 ```gdscript
 func _ready():
     env.weather_changed.connect(_on_weather_changed)
     env.time_changed.connect(_on_time_changed)
+    forecast.weather_forecast_changed.connect(_on_forecast)
 
 func _on_weather_changed(type, rain, snow, fog):
     print("Weather: ", type)
 
-func _on_time_changed(time, hour, minute):
-    print("Time: ", hour, ":", minute)
+func _on_forecast(next):
+    print("Next weather: ", next)
 ```
 
 ---
@@ -218,14 +282,14 @@ MIT License - Free for commercial and personal use.
 · Author: ks222 
 · Sky Shader: Inspired by UE5 atmospheric scattering
 · Water Shader: Custom Gerstner wave implementation reaching 95% of UE5 quality
-· Performance: Optimized for mobile devices (100+ lines, zero external textures)
+· Performance: Optimized for mobile devices
 
 ---
 
 🚀 Roadmap
 
 · v1.0.0 - Core water + sky + environment system
-· v1.1.0 - Vegetation wind interaction
-· v1.2.0 - Dynamic terrain wetness
+· v1.1.0 - Performance optimization + Wind system + Weather transition + Weather forecast
+· v1.2.0 - Dynamic terrain wetness + Vegetation interaction
 · v1.3.0 - Audio system integration
-· v2.0.0 - Volumetric clouds + weather forecasting
+· v2.0.0 - Volumetric clouds + Weather forecasting UI

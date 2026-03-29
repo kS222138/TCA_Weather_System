@@ -1,0 +1,31 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://addons/TCA_Weather_System/shaders/tca_water_shader.gdshader" id="1"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1")
+shader_parameter/water_color_deep = Color(0.05, 0.12, 0.22, 1)
+shader_parameter/water_color_shallow = Color(0.25, 0.55, 0.65, 1)
+shader_parameter/water_transparency = 0.85
+shader_parameter/water_smoothness = 0.95
+shader_parameter/water_metallic = 0.92
+shader_parameter/wave_speed = 0.8
+shader_parameter/wave_strength = 0.12
+shader_parameter/wave_scale = 1.5
+shader_parameter/wave_choppiness = 0.4
+shader_parameter/wave_speed2 = 1.2
+shader_parameter/wave_strength2 = 0.06
+shader_parameter/wave_scale2 = 2.5
+shader_parameter/normal_scale = 0.8
+shader_parameter/normal_speed = 0.15
+shader_parameter/caustic_intensity = 0.8
+shader_parameter/caustic_scale = 4.0
+shader_parameter/caustic_speed = 0.3
+shader_parameter/foam_intensity = 0.4
+shader_parameter/foam_threshold = 0.6
+shader_parameter/foam_speed = 0.2
+shader_parameter/reflection_strength = 0.7
+shader_parameter/fresnel_power = 3.0
+shader_parameter/rain_ripple_intensity = 0.0
+shader_parameter/depth_falloff = 2.5

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="DERWeatherResource" load_steps=3 format=3]
+
+[ext_resource type="Resource" path="res://addons/TCA_Weather_System/precipitation/snow.tres" id="1_nd23j"]
+[ext_resource type="Script" path="res://addons/TCA_Weather_System/scripts/WeatherResource.gd" id="2_qwelb"]
+
+[resource]
+script = ExtResource("2_qwelb")
+minDuration = 40000.0
+maxDuration = 100000.0
+cloudSpeed = 0.001
+smallCloudCover = 0.4
+largeCloudCover = 0.7
+cloudInnerColour = Color(0.913725, 0.913725, 0.913725, 1)
+cloudOuterColour = Color(0.482353, 0.482353, 0.482353, 1)
+precipitation = ExtResource("1_nd23j")
+fogDensity = 0.01
