@@ -1,8 +1,11 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=14 format=3]
 
-[ext_resource type="Script" path="res://addons/TCA_Weather_System/scripts/WeatherController.gd" id="1_b8cyn"]
-[ext_resource type="Resource" path="res://addons/TCA_Weather_System/seasons/summer.tres" id="2_wxo6p"]
-[ext_resource type="Shader" path="res://addons/TCA_Weather_System/shaders/weather_system_sky.gdshader" id="3_jxb3l"]
+[ext_resource type="Script" path="res://addons/TCA_Weather_System/scripts/EnvironmentManager.gd" id="1_b8cyn"]
+[ext_resource type="Script" path="res://addons/TCA_Weather_System/scripts/WeatherTransition.gd" id="2_wts"]
+[ext_resource type="Script" path="res://addons/TCA_Weather_System/scripts/WetnessController.gd" id="3_wet"]
+[ext_resource type="Script" path="res://addons/TCA_Weather_System/scripts/VegetationWindDriver.gd" id="4_veg"]
+[ext_resource type="Resource" path="res://addons/TCA_Weather_System/seasons/summer.tres" id="5_wxo6p"]
+[ext_resource type="Shader" path="res://addons/TCA_Weather_System/shaders/weather_system_sky.gdshader" id="6_jxb3l"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_rcj55"]
 fractal_weighted_strength = 0.46
@@ -23,7 +26,7 @@ seamless = true
 noise = SubResource("FastNoiseLite_ly6lx")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gjwbc"]
-shader = ExtResource("3_jxb3l")
+shader = ExtResource("6_jxb3l")
 shader_parameter/sky_top_color = Color(0.3, 0.5, 0.7, 1)
 shader_parameter/sky_horizon_color = Color(0.65, 0.75, 0.85, 1)
 shader_parameter/sky_curve = 0.15
@@ -56,11 +59,11 @@ background_mode = 2
 sky = SubResource("Sky_lb1th")
 volumetric_fog_density = 0.01
 
-[node name="WeatherController" type="Node" node_paths=PackedStringArray("worldEnvironment", "directionalLight")]
+[node name="WeatherController" type="Node3D" node_paths=PackedStringArray("worldEnvironment", "directionalLight")]
 script = ExtResource("1_b8cyn")
-worldEnvironment = NodePath("")
-directionalLight = NodePath("")
-seasons = Array[Object]([ExtResource("2_wxo6p")])
+worldEnvironment = NodePath("WorldEnvironment")
+directionalLight = NodePath("DirectionalLight3D")
+seasons = Array[Object]([ExtResource("5_wxo6p")])
 timeSpeedMultiplier = 500.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -68,3 +71,12 @@ environment = SubResource("Environment_33mdr")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.173648, 0.984808, 0, -0.984808, 0.173648, 0, 0, 0)
+
+[node name="WeatherTransition" type="Node" parent="."]
+script = ExtResource("2_wts")
+
+[node name="WetnessController" type="Node" parent="."]
+script = ExtResource("3_wet")
+
+[node name="VegetationWindDriver" type="Node" parent="."]
+script = ExtResource("4_veg")
