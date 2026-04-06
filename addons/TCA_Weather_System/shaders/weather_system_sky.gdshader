@@ -64,6 +64,16 @@ uniform float cloud_lod_factor = 0.5;
 uniform float star_lod_factor = 0.3;
 uniform float atmosphere_lod_factor = 0.6;
 
+// === TCA 1.3 新增 ===
+uniform float day_cycle : hint_range(0.0, 1.0) = 0.5;
+uniform float cloud_shadow_strength = 0.4;
+uniform float moon_cloud_illumination = 0.25;
+uniform vec3 rain_sky_tint = vec3(0.25, 0.3, 0.4);
+uniform vec3 rain_cloud_tint = vec3(0.4, 0.42, 0.46);
+uniform float fog_depth_falloff = 0.4;
+uniform float sunrise_haze = 0.3;
+uniform float night_sky_brightness = 0.15;
+
 float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
 
 float star_field(vec2 uv,float time){
@@ -125,14 +135,27 @@ void sky(){
     vec3 sky=mix(sky_horizon_color.rgb,sky_mid_color.rgb,t2);
     sky=mix(sky,sky_top_color.rgb,t1);
     sky*=sky_energy;
+
+    // === TCA 1.3 昼夜色温 ===
+    float day = clamp((day_cycle - 0.25) / 0.25, 0.0, 1.0);
+    float night = 1.0 - day;
+    sky = mix(sky, sky * 0.4 + vec3(0.0,0.05,0.15), night * night_sky_brightness);
     
     vec3 sun_dir=vec3(0.0);
     float sun_angle_deg=0.0;
     bool has_sun=false;
+    float sun_alt = 0.0;
+    
     if(LIGHT0_ENABLED){
         sun_dir=LIGHT0_DIRECTION;
         sun_angle_deg=degrees(acos(dot(sun_dir,EYEDIR)));
+        sun_alt = clamp(sun_dir.y * 2.0 + 0.5, 0.0, 1.0);
         has_sun=true;
+        
+        // === 日出雾霭 ===
+        float sunrise = smoothstep(0.0, 0.3, 1.0 - sun_alt);
+        sky += sunset_color * sunrise * sunrise_haze;
+        
         if(sun_angle_deg<sun_glow_size){
             if(sun_angle_deg<sun_disk_size){
                 float disk=pow(1.0-sun_angle_deg/sun_disk_size,2.0);
@@ -170,13 +193,29 @@ void sky(){
     
     float sun_facing=max(0.0,dot(EYEDIR,sun_dir));
     float cloud_brightness=0.5+0.6*sun_facing*cloud_lighting;
-    vec3 cloud_color=mix(cloud_outer_colour,cloud_inner_colour,clouds)*cloud_brightness;
-    sky=mix(sky,cloud_color,clouds);
     
+    // === TCA 1.3 云层阴影遮挡太阳 ===
+    float cloud_shadow = 1.0 - clouds * cloud_shadow_strength * (1.0 - night);
+    sky *= cloud_shadow;
+    
+    // === TCA 1.3 月亮照亮云层 ===
+    cloud_brightness += night * moon_cloud_illumination;
+    
+    vec3 cloud_color=mix(cloud_outer_colour,cloud_inner_colour,clouds)*cloud_brightness;
+    
+    // === TCA 1.3 雨天云层变灰 ===
+    cloud_color = mix(cloud_color, rain_cloud_tint, rain_intensity * 0.8);
+    
+    sky=mix(sky,cloud_color,clouds);
     sky+=volumetric_cloud(EYEDIR,sun_dir,TIME);
     
-    sky=mix(sky,vec3(0.5,0.6,0.7),rain_intensity*0.4);
-    sky=mix(sky,vec3(0.6,0.65,0.7),fog_intensity*0.3);
+    // === TCA 1.3 雨天天空染色 ===
+    sky = mix(sky, rain_sky_tint, rain_intensity * 0.5);
+    
+    // === TCA 1.3 雾深度融合 ===
+    float fog_fall = pow(1.0 - EYEDIR.y, fog_depth_falloff);
+    sky=mix(sky,vec3(0.6,0.65,0.7),fog_intensity * fog_fall);
+    
     sky*=season_tint;
     ground*=season_tint;
     
@@ -184,6 +223,7 @@ void sky(){
         float star_vis=clamp((sun_angle_deg-5.0)/20.0,0.0,1.0);
         star_vis=1.0-star_vis;
         star_vis=0.2+0.8*star_vis;
+        star_vis *= night;
         if(star_vis>0.05){
             vec2 star_uv = vec2(atan(EYEDIR.x, EYEDIR.z), asin(EYEDIR.y)) / (2.0 * 3.14159);
             star_uv.x = fract(star_uv.x + 0.5);
@@ -194,7 +234,7 @@ void sky(){
     }
     
     if(moon_enabled){
-        float moon_vis = 1.0 - clamp(sun_angle_deg / 95.0, 0.0, 0.8);
+        float moon_vis = night;
         if(moon_vis > 0.05){
             vec2 moon_sphere = vec2(atan(EYEDIR.x, EYEDIR.z), asin(EYEDIR.y)) / 3.14159;
             moon_sphere.x = moon_sphere.x * 0.5 + 0.5;

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=18 format=3]
 
 [ext_resource type="Script" path="res://addons/TCA_Weather_System/scripts/EnvironmentManager.gd" id="1_b8cyn"]
 [ext_resource type="Script" path="res://addons/TCA_Weather_System/scripts/WeatherTransition.gd" id="2_wts"]
@@ -6,6 +6,10 @@
 [ext_resource type="Script" path="res://addons/TCA_Weather_System/scripts/VegetationWindDriver.gd" id="4_veg"]
 [ext_resource type="Resource" path="res://addons/TCA_Weather_System/seasons/summer.tres" id="5_wxo6p"]
 [ext_resource type="Shader" path="res://addons/TCA_Weather_System/shaders/weather_system_sky.gdshader" id="6_jxb3l"]
+[ext_resource type="Shader" path="res://addons/TCA_Weather_System/shaders/clouds_volume.gdshader" id="7_cloud"]
+[ext_resource type="Shader" path="res://addons/TCA_Weather_System/shaders/wetness_effect.gdshader" id="8_wet"]
+[ext_resource type="Script" path="res://addons/TCA_Weather_System/scripts/rain_particles.gd" id="9_rain"]
+[ext_resource type="Script" path="res://addons/TCA_Weather_System/scripts/snow_particles.gd" id="10_snow"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_rcj55"]
 fractal_weighted_strength = 0.46
@@ -51,6 +55,14 @@ shader_parameter/cloud_blend_interpolated = true
 shader_parameter/cloud_texture = SubResource("NoiseTexture2D_lnf71")
 shader_parameter/cloud_texture2 = SubResource("NoiseTexture2D_fcohm")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_clouds"]
+shader = ExtResource("7_cloud")
+shader_parameter/cloud_speed = 0.0006
+shader_parameter/wind_direction = 0.0
+shader_parameter/wind_strength = 0.4
+shader_parameter/cloud_density = 0.3
+shader_parameter/cloud_shadow = 0.5
+
 [sub_resource type="Sky" id="Sky_lb1th"]
 sky_material = SubResource("ShaderMaterial_gjwbc")
 
@@ -58,19 +70,47 @@ sky_material = SubResource("ShaderMaterial_gjwbc")
 background_mode = 2
 sky = SubResource("Sky_lb1th")
 volumetric_fog_density = 0.01
+fog_enabled = true
+fog_height = 10.0
+fog_start = 100.0
+fog_density = 0.1
 
-[node name="WeatherController" type="Node3D" node_paths=PackedStringArray("worldEnvironment", "directionalLight")]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wetness"]
+shader = ExtResource("8_wet")
+shader_parameter/wetness = 0.0
+shader_parameter/wet_color = Color(0.1, 0.15, 0.25, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wetness"]
+size = Vector3(1, 1, 1)
+
+[node name="WeatherController" type="Node3D" node_paths=PackedStringArray("worldEnvironment", "directionalLight", "sky", "wetnessMaterial")]
 script = ExtResource("1_b8cyn")
 worldEnvironment = NodePath("WorldEnvironment")
 directionalLight = NodePath("DirectionalLight3D")
+sky = NodePath("Sky")
+wetnessMaterial = NodePath("WetnessPlane")
 seasons = Array[Object]([ExtResource("5_wxo6p")])
 timeSpeedMultiplier = 500.0
+day_speed = 0.1
+cloud_shadow_strength = 0.4
+moon_cloud_illumination = 0.25
+rain_sky_tint = Color(0.25, 0.3, 0.4, 1)
+rain_cloud_tint = Color(0.4, 0.42, 0.46, 1)
+fog_depth_falloff = 0.4
+sunrise_haze = 0.3
+night_sky_brightness = 0.15
+fog_height = 10.0
+fog_start = 100.0
+fog_density = 0.1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_33mdr")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.173648, 0.984808, 0, -0.984808, 0.173648, 0, 0, 0)
+
+[node name="Sky" type="Sky" parent="."]
+sky_material = SubResource("ShaderMaterial_clouds")
 
 [node name="WeatherTransition" type="Node" parent="."]
 script = ExtResource("2_wts")
@@ -80,3 +120,18 @@ script = ExtResource("3_wet")
 
 [node name="VegetationWindDriver" type="Node" parent="."]
 script = ExtResource("4_veg")
+
+[node name="WetnessPlane" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_wetness")
+material_override = SubResource("ShaderMaterial_wetness")
+visible = false
+
+[node name="RainParticles" type="GPUParticles3D" parent="."]
+script = ExtResource("9_rain")
+emitting = false
+amount = 0
+
+[node name="SnowParticles" type="GPUParticles3D" parent="."]
+script = ExtResource("10_snow")
+emitting = false
+amount = 0
