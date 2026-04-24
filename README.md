@@ -1,8 +1,32 @@
 🌊 TCA Weather System - Complete Environment System
 
-Version: 1.3.0
+Version: 1.4.0
 Godot Version: 4.6+
 License: MIT
+
+
+🆕 What's New in v1.4.0
+
+✅ Editor Plugin Integration
+
+- Registered as an official editor plugin (plugin.cfg)
+- "Add Weather to Scene" menu item for one-click setup
+- Plugin appears in Project Settings > Plugins
+
+✅ Weather Audio Signal System
+
+- weather_type_changed(old, new): Emitted when weather type changes
+- rain_intensity_changed(intensity): Emitted when rain intensity changes
+- snow_intensity_changed(intensity): Emitted when snow intensity changes
+- fog_density_changed(density): Emitted when fog density changes
+- wind_gust_triggered(strength): Emitted on wind gusts
+- Developers can connect these signals to trigger their own audio, gameplay, or UI logic
+
+✅ Performance Optimization
+
+- VegetationWindDriver: Replaced find_children_by_type() with material registration system
+- Eliminates per-frame scene tree traversal for large scenes
+- Wind updates now O(n) where n = registered materials, not total scene nodes
 
 
 🆕 What's New in v1.3.0
@@ -91,7 +115,7 @@ Environment Management
 - 10+ weather presets, Season system, Day/night cycle
 
 
-📁 File Structure (v1.3.0 Updated)
+📁 File Structure (v1.4.0 Updated)
 
 TCA_Weather_System/
 ├── materials/
@@ -108,19 +132,43 @@ TCA_Weather_System/
 │   ├── WeatherForecast.gd
 │   ├── QualityPreset.gd
 │   ├── TerrainWetness.gd
-│   └── VegetationInteraction.gd
+│   ├── VegetationInteraction.gd
+│   └── VegetationWindDriver.gd
 ├── seasons/
 ├── shaders/
 │   ├── weather_system_sky.gdshader
-│   ├── clouds_volume.gdshader      # NEW in 1.3.0
-│   ├── wetness_effect.gdshader     # NEW in 1.3.0
-│   └── fog.gdshader                # NEW in 1.3.0
+│   ├── clouds_volume.gdshader
+│   ├── wetness_effect.gdshader
+│   └── fog.gdshader
 ├── textures/
 ├── weather/
+├── plugin.cfg                       # NEW in 1.4.0
+├── plugin.gd                        # NEW in 1.4.0
 └── weather_controller.tscn
 
 
-🚀 Quick Start (v1.3.0 New Features)
+🚀 Quick Start (v1.4.0 New Features)
+
+One-Click Scene Setup
+gdscript
+# Use the editor menu: Project > Tools > Add Weather to Scene
+# Or manually:
+var weather = preload("res://addons/TCA_Weather_System/weather_controller.tscn").instantiate()
+add_child(weather)
+
+Weather Audio Signals
+gdscript
+func _ready():
+    var env = $WeatherController
+    env.rain_intensity_changed.connect(func(intensity):
+        if intensity > 0.5:
+            $RainAudio.play()
+        else:
+            $RainAudio.stop()
+    )
+    env.wind_gust_triggered.connect(func(strength):
+        $GustAudio.play()
+    )
 
 Volumetric Clouds
 gdscript
@@ -173,5 +221,6 @@ MIT License — Free for commercial & personal use.
 - v1.1.0 – Performance, wind, transition, forecast
 - v1.2.0 – Terrain wetness + Vegetation interaction
 - v1.3.0 – Volumetric clouds + Enhanced fog + Wetness shader  ✅
-- v1.4.0 – Audio system integration
+- v1.4.0 – Editor plugin + Weather signals + Performance optimization  ✅
+- v1.5.0 – Mobile adaptation + Snow accumulation
 - v2.0.0 – Weather UI + Dynamic seasons
